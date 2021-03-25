@@ -52,25 +52,26 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // $this->validate($request, [
-        //     'product_name' => 'required|string',
-        //     'category_id' => 'required',
-        //     'stock' => 'required|numeric',
-        // ]);
+        $this->validate($request, [
+            'product_name' => 'required|string',
+            'category_id' => 'required',
+            'stock' => 'required|numeric',
+        ]);
 
-        // if ($request->act == "add") {
-        //     $product = new Product;
-        //     $product->product_name = $request->product_name;
-        //     $product->category_id = $request->category_id;
-        //     $product->stock = $request->stock;
-        //     $product->save();
+        if ($request->act == "add") {
+            $product = new Product;
+            $product->product_name = $request->product_name;
+            $product->category_id = $request->category_id;
+            $product->stock = $request->stock;
+            $product->save();
             
-        //     $log = new ProductStockLog;
-        //     $log->product_id = $product->id;
-        //     $log->quantity = $product->stock;
-        //     $log->annotation = $request->annotation;
-        //     $log->save();
-        // } elseif ($request->act == "edit") {
+            $log = new ProductStockLog;
+            $log->product_id = $product->id;
+            $log->quantity = $product->stock;
+            $log->annotation = $request->annotation;
+            $log->save();
+        }
+        //  elseif ($request->act == "edit") {
         //     $product = new Product;
         //     $oldRecord = Product::findOrFail($product->id);
         //     if ($oldRecord->stock == $product->stock) {
@@ -89,7 +90,7 @@ class ProductController extends Controller
         //         $log->save();
         //     }
         // }
-        // return true;
+        return redirect()->back()->with('success', 'Barang berhasil ditambahkan.');
     }
 
     /**
@@ -194,13 +195,15 @@ class ProductController extends Controller
             
             $oldRecord = Product::find($id);
             if ($oldRecord->stock == $request->stock) {
-                return true;
+                return redirect()->route('product.index')->with('success', 'Barang berhasil diubah.');
             } elseif ($oldRecord->stock < $request->stock) {
+                // ambil id berdasarkan produk yang akan di ubah
                 $product = Product::find($id);
                 // $product->product_name = $request->product_name;
                 // $product->category_id = $request->category_id;
                 // $product->stock = $request->stock;
                 // $product->save();
+                // proses insert product stocklog
                 $log = new ProductStockLog;
                 $log->product_id = $product->id;
                 $log->quantity = abs($product->stock - $request->stock);
@@ -208,6 +211,7 @@ class ProductController extends Controller
                 // dd($log);
                 $log->save();
 
+                // proses update product
                 $product->update([
                     'product_name' => $request->product_name,
                     'category_id' => $request->category_id,
@@ -239,6 +243,6 @@ class ProductController extends Controller
                 
             }
         }
-        return true;
+        return redirect()->route('product.index')->with('success', 'Barang berhasil diubah.');
     }
 }
