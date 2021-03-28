@@ -23,9 +23,11 @@
                                 <i class="fas fa-plus"></i> Tambah
                             </a>
                         </div> --}}
-                        <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
-                            <i class="fas fa-plus"></i> Add
-                        </button>
+                        @can('isAdmin')    
+                            <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body">
@@ -51,6 +53,7 @@
                             <thead>
                                 <tr>
                                     <td>#</td>
+                                    <td>Kode Produk</td>
                                     <td>Nama Produk</td>
                                     <td>Kategori</td>
                                     <td>Stok</td>
@@ -62,6 +65,7 @@
                                 @foreach ($products as $product)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $product->product_code }}</td>
                                         <td>{{ $product->product_name }}</td>
                                         <td>{{ $product->category->category_name }}</td>
                                         <td>{{ $product->stock }}</td>
@@ -98,8 +102,14 @@
                         <input type="hidden" name="act" value="add">
                         @csrf
                         <div class="form-group">
+                            <label for="">Kode Produk</label>
+                            <input type="text" name="product_code" id="" class="form-control" autofocus>
+                            <p class="text-danger">{{ $errors->first('product_code') }}</p>
+                        </div>
+                        <div class="form-group">
                             <label for="">Nama Produk</label>
                             <input type="text" name="product_name" id="" class="form-control" autofocus>
+                            <p class="text-danger">{{ $errors->first('product_name') }}</p>
                         </div>
                         <div class="form-group">
                             <label for="">Kategori</label>
@@ -112,6 +122,12 @@
                         <div class="form-group">
                             <label for="">Stok</label>
                             <input type="number" name="stock" id="" class="form-control">
+                            <p class="text-danger">{{ $errors->first('stock') }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Tahun Perolehan</label>
+                            <input type="number" name="year" id="" class="form-control">
+                            <p class="text-danger">{{ $errors->first('year') }}</p>
                         </div>
                         <div class="form-group">
                             <label for="">Kondisi</label>

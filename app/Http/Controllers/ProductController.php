@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductStockLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -53,22 +54,27 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'product_code' => 'required|string|max:10',
             'product_name' => 'required|string',
             'category_id' => 'required',
             'stock' => 'required|numeric',
+            'year' => 'required|numeric|min:4|max:4',
         ]);
 
         if ($request->act == "add") {
             $product = new Product;
+            $product->product_code = $request->product_code;
             $product->product_name = $request->product_name;
             $product->category_id = $request->category_id;
             $product->stock = $request->stock;
+            $product->year = $request->year;
             $product->save();
             
             $log = new ProductStockLog;
             $log->product_id = $product->id;
             $log->quantity = $product->stock;
             $log->annotation = $request->annotation;
+            $log->user_id = Auth::id();
             $log->save();
         }
         //  elseif ($request->act == "edit") {
@@ -208,14 +214,17 @@ class ProductController extends Controller
                 $log->product_id = $product->id;
                 $log->quantity = abs($product->stock - $request->stock);
                 $log->annotation = $request->annotation;
+                $log->user_id = Auth::id();
                 // dd($log);
                 $log->save();
 
                 // proses update product
                 $product->update([
+                    'product_code' => $request->product_code,
                     'product_name' => $request->product_name,
                     'category_id' => $request->category_id,
                     'stock' => $request->stock,
+                    'year' => $request->year,
                 ]);
                 // dd($product);
 
@@ -230,13 +239,16 @@ class ProductController extends Controller
                 $log->product_id = $product->id;
                 $log->quantity = abs($request->stock - $product->stock);
                 $log->annotation = $request->annotation;
+                $log->user_id = Auth::id();
                 // dd($log);
                 $log->save();
 
                 $product->update([
+                    'product_code' => $request->product_code,
                     'product_name' => $request->product_name,
                     'category_id' => $request->category_id,
                     'stock' => $request->stock,
+                    'year' => $request->year,
                 ]);
                 // dd($product);
                 

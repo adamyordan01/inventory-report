@@ -21,6 +21,13 @@
                     @method('PUT')
                     @csrf
                     <div class="form-group">
+                        <label for="">Kode Kategori</label>
+                        <input type="text" name="category_code" id="" class="form-control" autofocus value="{{ $category->category_code }}">
+                        <p class="text-danger">
+                            {{ $errors->first('category_code') }}
+                        </p>
+                    </div>
+                    <div class="form-group">
                         <label for="">Nama Kategori</label>
                         <input type="text" name="category_name" id="" class="form-control" autofocus value="{{ $category->category_name }}">
                         <p class="text-danger">

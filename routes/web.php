@@ -6,6 +6,8 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +33,16 @@ Route::middleware(['auth'])->group(function() {
     // Route::resource('item', ItemController::class);
     Route::get('/', DashboardController::class)->name('dashboard');
     
-    Route::resource('/category', CategoryController::class);
+    Route::resource('/category', CategoryController::class)->middleware('can:isAdmin');
     
     Route::resource('/product', ProductController::class);
     Route::any('/product/{product}/save', [ProductController::class, 'save'])->name('product.save');
     Route::any('/product/{product}/print', [ProductController::class, 'print'])->name('product.print');
+
+    Route::get('/password', [PasswordController::class, 'edit'])->name('password');
+    Route::patch('password-update', [PasswordController::class, 'update'])->name('password-update');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
+    Route::patch('/profile-update', [ProfileController::class, 'update'])->name('profile-update');
     
 });

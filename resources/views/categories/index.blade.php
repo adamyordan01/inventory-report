@@ -3,7 +3,7 @@
 @section('breadcrumb')
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Home</a></li>
         <li class="breadcrumb-item active" aria-current="page">Category</li>
     </ol>
 </nav>
@@ -51,6 +51,7 @@
                             <thead>
                                 <tr>
                                     <td>#</td>
+                                    <td>Kode Kategori</td>
                                     <td>Kategori</td>
                                     <td>Di input pada</td>
                                     <td>Aksi</td>
@@ -60,6 +61,7 @@
                                 @forelse ($categories as $category)
                                     <tr>
                                         <td width="80px">{{ $loop->iteration }}</td>
+                                        <td>{{ $category->category_code }}</td>
                                         <td>{{ $category->category_name }}</td>
                                         <td width="250px">{{ $category->created_at->format('d-m-Y h:i:s') }}</td>
                                         <td width="100px">
@@ -89,7 +91,7 @@
             <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Tambah Kategori</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -97,6 +99,10 @@
                 <form action="{{ route('category.store') }}" method="post">
                     <div class="modal-body">
                         @csrf
+                        <div class="form-group">
+                            <label for="">Kode Kategori</label>
+                            <input type="text" name="category_code" id="" class="form-control" autofocus>
+                        </div>
                         <div class="form-group">
                             <label for="">Nama Kategori</label>
                             <input type="text" name="category_name" id="" class="form-control" autofocus>

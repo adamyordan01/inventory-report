@@ -36,6 +36,7 @@
                                     <td>#</td>
                                     <td>Jumlah</td>
                                     <td>Keterangan</td>
+                                    <td>Di input oleh</td>
                                     <td>Di input pada</td>
                                 </tr>
                             </thead>
@@ -48,6 +49,9 @@
                                         </td>
                                         <td>
                                             {{ $log->annotation }}
+                                        </td>
+                                        <td>
+                                            {{ $log->user->name }}
                                         </td>
                                         <td>
                                             {{ $log->created_at->format('d-m-Y h:i:s') }}

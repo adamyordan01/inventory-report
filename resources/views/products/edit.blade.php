@@ -23,8 +23,14 @@
                     <input type="hidden" name="act" value="edit">
                     
                     <div class="form-group">
+                        <label for="">Kode Produk</label>
+                        <input type="text" name="product_code" id="" class="form-control" autofocus value="{{ $product->product_code }}">
+                        <p class="text-danger">{{ $errors->first('product_code') }}</p>
+                    </div>
+                    <div class="form-group">
                         <label for="">Nama Produk</label>
                         <input type="text" name="product_name" id="" class="form-control" autofocus value="{{ $product->product_name }}">
+                        <p class="text-danger">{{ $errors->first('product_name') }}</p>
                     </div>
                     <div class="form-group">
                         <label for="">Kategori</label>
@@ -37,11 +43,19 @@
                     <div class="form-group">
                         <label for="">Stok</label>
                         <input type="number" name="stock" id="" class="form-control" value="{{ $product->stock }}">
+                        <p class="text-danger">{{ $errors->first('stock') }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tahun Perolehan</label>
+                        <input type="number" name="year" id="" class="form-control" value="{{ $product->stock }}">
+                        <p class="text-danger">{{ $errors->first('year') }}</p>
                     </div>
                     <div class="form-group">
                         <label for="">Kondisi</label>
                         <select name="annotation" id="" class="form-control">
-                            <option value="Baru">Baru</option>
+                            @can('isAdmin')
+                                <option value="Baru">Baru</option>
+                            @endcan
                             <option value="Rusak">Rusak</option>
                             <option value="Hilang">Hilang</option>
                         </select>

@@ -48,6 +48,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'category_code' => 'required|string|max:10',
             'category_name' => 'required|string'
         ]);
 
@@ -92,12 +93,14 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'category_name' => 'required|string'
+            'category_code' => 'required|string|max:10',
+            'category_name' => 'required|string',
         ]);
 
         $category = Category::find($id);
 
         $category->update([
+            'category_code' => $request->category_code,
             'category_name' => $request->category_name
         ]);
 

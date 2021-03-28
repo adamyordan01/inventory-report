@@ -15,22 +15,27 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
+    <li class="nav-item {{ Request::is('/*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item {{ Request::is('product*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('product.index') }}">
             <i class="fas fa-fw fa-box-open"></i>
-            <span>Barang</span></a>
+            <span>Barang</span>
+        </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('category.index') }}">
-            <i class="fas fa-fw fa-boxes"></i>
-            <span>Kategori Barang</span></a>
-    </li>
+
+    @can('isAdmin')
+        <li class="nav-item {{ Request::is('category*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('category.index') }}">
+                <i class="fas fa-fw fa-boxes"></i>
+                <span>Kategori Barang</span>
+            </a>
+        </li>
+    @endcan
 
     {{-- <!-- Divider -->
     <hr class="sidebar-divider">
