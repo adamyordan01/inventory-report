@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\ProductStockLog;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class ProductStockLogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,18 +14,19 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderby('created_at', 'DESC');
+        $logs = ProductStockLog::latest()->simplePaginate(10);
 
-        // jika terdpat request pencarian maka masuk kedalam statement ini
-        if (request()->q != '') {
-            $categories = Category::where('category_name', 'LIKE', '%' . request()->q . '%');
-        }
-        // kemudian load datanya kedalam view
-        $categories = $categories->simplePaginate(10);
+        return view('logs.index', [
+            'logs' => $logs
+        ]);
+    }
 
+    public function print()
+    {
+        $logs = ProductStockLog::get();
 
-        return view('categories.index', [
-            'categories' => $categories,
+        return view('logs.print', [
+            'logs' => $logs
         ]);
     }
 
@@ -47,14 +48,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'category_code' => 'required|max:10',
-            'category_name' => 'required'
-        ]);
-
-        Category::create($request->except('_token'));
-
-        return redirect()->route('category.index')->with(['success' => 'Kategori berhasil ditambahkan.']);
+        //
     }
 
     /**
@@ -76,11 +70,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::find($id);
-
-        return view('categories.edit', [
-            'category' => $category,
-        ]);
+        //
     }
 
     /**
@@ -92,19 +82,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'category_code' => 'required|max:10',
-            'category_name' => 'required',
-        ]);
-
-        $category = Category::find($id);
-
-        $category->update([
-            'category_code' => $request->category_code,
-            'category_name' => $request->category_name
-        ]);
-
-        return redirect()->route('category.index')->with(['success' => 'Kategori Barang Berhasil Diubah.']);
+        //
     }
 
     /**

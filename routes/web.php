@@ -7,7 +7,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\ProductStockLogController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,5 +46,10 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
     Route::patch('/profile-update', [ProfileController::class, 'update'])->name('profile-update');
+
+    Route::resource('/log', ProductStockLogController::class)->only(['index']);
+    Route::get('/log-print', [ProductStockLogController::class, 'print'])->name('log.print');
+
+    Route::resource('/user', UserController::class)->middleware('can:isAdmin');
     
 });

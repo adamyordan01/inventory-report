@@ -16,14 +16,14 @@
                 <div class="card-header">
                     <div class="row justify-content-between align-items-center">
                         <div class="col-md-6">
-                            <h5 class="card-title">{{ $product->product_name }} | Stock Log</h5>
+                            <h5 class="card-title">Stock Log Barang</h5>
                         </div>
                         {{-- <div class="col-md-6">
                             <a href="{{ route('item.create') }}" class="btn btn-primary btn-sm float-right">
                                 <i class="fas fa-plus"></i> Tambah
                             </a>
                         </div> --}}
-                        <a href="{{ route('product.print', $product->id) }}" target="_blank" class="btn btn-sm btn-primary float-right">
+                        <a href="{{ route('log.print') }}" target="_blank" class="btn btn-sm btn-primary float-right">
                             <i class="fas fa-fw fa-print"></i> Cetak
                         </a>
                     </div>
@@ -33,19 +33,27 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <td>#</td>
-                                    <td>Jumlah</td>
-                                    <td>Keterangan</td>
-                                    <td>Di input oleh</td>
-                                    <td>Di input pada</td>
+                                    <th>#</th>
+                                    <th>Jumlah</th>
+                                    <th>Kode Barang</th>
+                                    <th>Nama Barang</th>
+                                    <th>Keterangan</th>
+                                    <th>Di input oleh</th>
+                                    <th>Di input pada</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($stockLog as $log)
+                                @foreach ($logs as $log)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>
                                             {{ $log->quantity }}
+                                        </td>
+                                        <td>
+                                            {{ $log->product->product_code }}
+                                        </td>
+                                        <td>
+                                            {{ $log->product->product_name }}
                                         </td>
                                         <td>
                                             {{ $log->annotation }}
@@ -61,6 +69,7 @@
                             </tbody>
                         </table>
                     </div>
+                    {{ $logs->links() }}
                     {{-- {{ $items->appends($request)->links() }} --}}
                 </div>
             </div>

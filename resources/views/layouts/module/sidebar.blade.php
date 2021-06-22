@@ -28,11 +28,25 @@
         </a>
     </li>
 
+    <li class="nav-item {{ Request::is('log*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('log.index') }}">
+            <i class="fas fa-fw fa-box-open"></i>
+            <span>All Product Log</span>
+        </a>
+    </li>
+
     @can('isAdmin')
         <li class="nav-item {{ Request::is('category*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('category.index') }}">
                 <i class="fas fa-fw fa-boxes"></i>
                 <span>Kategori Barang</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ Request::is('user*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('user.index') }}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Daftar User</span>
             </a>
         </li>
     @endcan

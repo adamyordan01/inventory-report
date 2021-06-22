@@ -25,7 +25,7 @@ class ProductController extends Controller
             $products = Product::where('product_name', 'LIKE', '%' . request()->q . '%');
         }
 
-        $products = $products->paginate(10);
+        $products = $products->simplePaginate(10);
 
 
         return view('products.index', [
@@ -54,11 +54,12 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'product_code' => 'required|string|max:10',
-            'product_name' => 'required|string',
+            'product_code' => 'required|max:10',
+            'product_name' => 'required',
             'category_id' => 'required',
             'stock' => 'required|numeric',
-            'year' => 'required|numeric|min:4|max:4',
+            'year' => 'required|numeric|min:4',
+            'when' => 'required'
         ]);
 
         if ($request->act == "add") {
@@ -67,6 +68,7 @@ class ProductController extends Controller
             $product->product_name = $request->product_name;
             $product->category_id = $request->category_id;
             $product->stock = $request->stock;
+            $product->when = $request->when;
             $product->year = $request->year;
             $product->save();
             
@@ -173,13 +175,17 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        
+        $product = Product::find($id);
+
+        $product->delete();
+
+        return redirect()->route('product.index')->with('success', 'Product Berhasil dihapus.');
     }
 
     public function save(Request $request, $id)
     {
         $this->validate($request, [
-            'product_name' => 'required|string',
+            'product_name' => 'required',
             'category_id' => 'required',
             'stock' => 'required|numeric',
         ]);
@@ -256,5 +262,14 @@ class ProductController extends Controller
             }
         }
         return redirect()->route('product.index')->with('success', 'Barang berhasil diubah.');
+    }
+
+    public function all()
+    {
+        $allLog = ProductStockLog::get();
+
+        return view('products.all_log',  [
+            'allLog' => $allLog
+        ]);
     }
 }

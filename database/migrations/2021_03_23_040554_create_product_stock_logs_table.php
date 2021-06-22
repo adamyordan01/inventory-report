@@ -15,9 +15,11 @@ class CreateProductStockLogsTable extends Migration
     {
         Schema::create('product_stock_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
+            // $table->unsignedBigInteger('product_id');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
             $table->string('annotation');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

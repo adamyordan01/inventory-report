@@ -47,7 +47,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Tahun Perolehan</label>
-                        <input type="number" name="year" id="" class="form-control" value="{{ $product->stock }}">
+                        <input type="number" name="year" id="" class="form-control" value="{{ $product->year }}">
                         <p class="text-danger">{{ $errors->first('year') }}</p>
                     </div>
                     <div class="form-group">

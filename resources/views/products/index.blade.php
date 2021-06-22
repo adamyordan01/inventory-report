@@ -69,20 +69,28 @@
                                         <td>{{ $product->product_name }}</td>
                                         <td>{{ $product->category->category_name }}</td>
                                         <td>{{ $product->stock }}</td>
-                                        <td>{{ $product->created_at->format('d-m-Y h:i:s') }}</td>
+                                        <td>{{ $product->when }}</td>
                                         <td>
-                                            <a href="{{ route('product.edit', $product->id) }}" class="btn btn-circle btn-sm btn-warning">
-                                                <i class="fas fa-fw fa-pencil-alt"></i>
-                                            </a>
-                                            <a href="{{ route('product.show', $product->id) }}" class="btn btn-circle btn-sm btn-info">
-                                                <i class="far fa-fw fa-eye"></i>
-                                            </a>
+                                            <form action="{{ route('product.destroy', $product->id) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <a href="{{ route('product.edit', $product->id) }}" class="btn btn-circle btn-sm btn-warning">
+                                                    <i class="fas fa-fw fa-pencil-alt"></i>
+                                                </a>
+                                                <a href="{{ route('product.show', $product->id) }}" class="btn btn-circle btn-sm btn-info">
+                                                    <i class="far fa-fw fa-eye"></i>
+                                                </a>
+                                                <button type="submit" class="btn btn-circle btn-sm btn-danger" onclick="return confirm('Apakah ingin menghapus data tersebut?');">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
+                    {{ $products->links() }}
                     {{-- {{ $items->appends($request)->links() }} --}}
                 </div>
             </div>
@@ -125,6 +133,11 @@
                             <p class="text-danger">{{ $errors->first('stock') }}</p>
                         </div>
                         <div class="form-group">
+                            <label for="when">Tanggal Input</label>
+                            <input type="text" name="when" id="datepicker" class="form-control">
+                            <p class="text-danger">{{ $errors->first('when') }}</p>
+                        </div>
+                        <div class="form-group">
                             <label for="">Tahun Perolehan</label>
                             <input type="number" name="year" id="" class="form-control">
                             <p class="text-danger">{{ $errors->first('year') }}</p>
@@ -147,4 +160,10 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        $('#datepicker').datepicker({ uiLibrary: 'bootstrap4', format: 'yyyy-mm-dd' });
+    </script>
 @endsection

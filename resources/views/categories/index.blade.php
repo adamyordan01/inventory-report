@@ -82,6 +82,7 @@
                             </tbody>
                         </table>
                     </div>
+                    {{ $categories->links() }}
                     {{-- {{ $items->appends($request)->links() }} --}}
                 </div>
             </div>

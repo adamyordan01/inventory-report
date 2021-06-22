@@ -18,23 +18,31 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <h4 class="text-center mt-4 mb-3">Laporan Stok Log BPN Langsa | {{ $product->product_name }}</h4>
+                <h4 class="text-center mt-4 mb-3">Laporan Stok Log Barang BPN Langsa</h4>
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Jumlah</th>
+                            <th>Kode Barang</th>
+                            <th>Nama Barang</th>
                             <th>Keterangan</th>
                             <th>Di input oleh</th>
                             <th>Di input pada</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($stockLog as $log)
+                        @foreach ($logs as $log)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
                                     {{ $log->quantity }}
+                                </td>
+                                <td>
+                                    {{ $log->product->product_code }}
+                                </td>
+                                <td>
+                                    {{ $log->product->product_name }}
                                 </td>
                                 <td>
                                     {{ $log->annotation }}
